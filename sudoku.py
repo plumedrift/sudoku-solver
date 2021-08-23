@@ -1,28 +1,16 @@
 import numpy as np
 
-solution2 = np.array([[0, 0, 4, 0, 0, 6, 0, 7, 9],
-                      [0, 0, 0, 0, 0, 0, 6, 0, 2],
-                      [0, 5, 6, 0, 9, 2, 3, 0, 0],
+# 607009301
+# 020300506
+# 000760040
 
-                      [0, 7, 8, 0, 6, 1, 0, 3, 0],
-                      [5, 0, 9, 0, 0, 0, 4, 0, 6],
-                      [0, 2, 0, 5, 4, 0, 8, 9, 0],
+# 093002000
+# 200000007
+# 000500620
 
-                      [0, 0, 7, 4, 1, 0, 9, 2, 0],
-                      [1, 0, 5, 0, 0, 0, 0, 0, 0],
-                      [8, 4, 0, 6, 0, 0, 1, 0, 0]])
-
-solution = np.array([[6, 0, 7, 0, 0, 9, 3, 0, 1],
-                     [0, 2, 0, 3, 0, 0, 5, 0, 6],
-                     [0, 0, 0, 7, 6, 0, 0, 4, 0],
-
-                     [0, 9, 3, 0, 0, 2, 0, 0, 0],
-                     [2, 0, 0, 0, 0, 0, 0, 0, 7],
-                     [0, 0, 0, 5, 0, 0, 6, 2, 0],
-
-                     [0, 5, 0, 0, 7, 3, 0, 0, 0],
-                     [3, 0, 8, 0, 0, 6, 0, 5, 0],
-                     [9, 0, 2, 8, 0, 0, 7, 0, 3]])
+# 050073000
+# 308006050
+# 902800703
 
 potential = [np.ones((9, 9)),
              np.ones((9, 9)),
@@ -47,8 +35,8 @@ def isComplete(solution):
 def refillPotentials():
     for row in range(0, 9):
         for col in range(0, 9):
-            if solution[row][col] > 0:
-                clear(solution[row][col], row, col)
+            if input_puzzle[row][col] > 0:
+                clear(input_puzzle[row][col], row, col)
 
 
 # clear the row in the same-value potential map
@@ -84,7 +72,7 @@ def searchSolution():
             if np.sum(potential[map][index]) == 1:
                 for col in range(0, 9):
                     if potential[map][index][col] == 1:
-                        solution[index][col] = map + 1
+                        input_puzzle[index][col] = map + 1
                         clear(map + 1, index, col)
 
                         return True
@@ -93,7 +81,7 @@ def searchSolution():
             if np.sum(potential[map], axis=0)[index] == 1:
                 for row in range(0, 9):
                     if potential[map][row][index] == 1:
-                        solution[row][index] = map + 1
+                        input_puzzle[row][index] = map + 1
                         clear(map + 1, row, index)
 
                         return True
@@ -115,11 +103,12 @@ def squareSolutionFound(map):
                 actualRow = actualCoords[0]
                 actualCol = actualCoords[1]
 
-                solution[actualRow][actualCol] = map + 1
+                input_puzzle[actualRow][actualCol] = map + 1
                 clear(map + 1, actualRow, actualCol)
 
                 return True
     return False
+
 
 # returns actual coordinates for where the solution is
 def returnCoords(miniSquare, i, j):
@@ -129,17 +118,32 @@ def returnCoords(miniSquare, i, j):
                 return [3 * i + row, 3 * j + col]
 
 
-while not isComplete(solution):
+input_puzzle = list()
+for row in range(9):
+    temp = list()
+
+    submitted = input("Please enter one row of nine numbers, with no spaces, and hit enter:")
+
+    while len(submitted) != 9:
+        print("Entry is not nine numbers, please resubmit the last row:")
+        submitted = input()
+
+    for char in submitted:
+        temp.append(int(char))
+
+    input_puzzle.append(temp)
+
+input_puzzle = np.array(input_puzzle)
+
+while not isComplete(input_puzzle):
     refillPotentials()
     if not searchSolution():
         print("Didn't find a solution")
         break
 
-if isComplete(solution):
-    print("We found a solution")
+if isComplete(input_puzzle):
+    print_solution(input_puzzle)
 
 # todo
-# - upload to github
-# - intake puzzle easier/quicker
 # - print solution
 #
