@@ -1,5 +1,4 @@
 import numpy as np
-
 # 607009301
 # 020300506
 # 000760040
@@ -11,16 +10,6 @@ import numpy as np
 # 050073000
 # 308006050
 # 902800703
-
-potential = [np.ones((9, 9)),
-             np.ones((9, 9)),
-             np.ones((9, 9)),
-             np.ones((9, 9)),
-             np.ones((9, 9)),
-             np.ones((9, 9)),
-             np.ones((9, 9)),
-             np.ones((9, 9)),
-             np.ones((9, 9))]
 
 
 # check if solution is filled
@@ -118,6 +107,29 @@ def returnCoords(miniSquare, i, j):
                 return [3 * i + row, 3 * j + col]
 
 
+def print_solution(solution):
+    print()
+    print()
+    print("One solution is as follows:")
+    print("===========================")
+    print()
+
+    for row in solution:
+        for col in row:
+            print(str(col) + ' ', end='')
+        print()
+
+
+potential = [np.ones((9, 9)),
+             np.ones((9, 9)),
+             np.ones((9, 9)),
+             np.ones((9, 9)),
+             np.ones((9, 9)),
+             np.ones((9, 9)),
+             np.ones((9, 9)),
+             np.ones((9, 9)),
+             np.ones((9, 9))]
+
 input_puzzle = list()
 for row in range(9):
     temp = list()
@@ -143,7 +155,3 @@ while not isComplete(input_puzzle):
 
 if isComplete(input_puzzle):
     print_solution(input_puzzle)
-
-# todo
-# - print solution
-#
